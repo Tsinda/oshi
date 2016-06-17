@@ -60,10 +60,10 @@ public class WindowsUsbDevice extends AbstractUsbDevice {
     /*
      * Maps to store information using PNPDeviceID as the key
      */
-    private static Map<String, String> nameMap = new HashMap<>();
-    private static Map<String, String> vendorMap = new HashMap<>();
-    private static Map<String, String> serialMap = new HashMap<>();
-    private static Map<String, List<String>> hubMap = new HashMap<>();
+    private static Map<String, String> nameMap = new HashMap<String, String>();
+    private static Map<String, String> vendorMap = new HashMap<String, String>();
+    private static Map<String, String> serialMap = new HashMap<String, String>();
+    private static Map<String, List<String>> hubMap = new HashMap<String, List<String>>();
 
     /**
      * {@inheritDoc}
@@ -152,7 +152,7 @@ public class WindowsUsbDevice extends AbstractUsbDevice {
         IntByReference child = new IntByReference();
         if (0 == Cfgmgr32.INSTANCE.CM_Get_Child(child, devInst, 0)) {
             // Add first child to a list
-            List<String> childList = new ArrayList<>();
+            List<String> childList = new ArrayList<String>();
             String childId = getDeviceId(child.getValue());
             childList.add(childId);
             hubMap.put(deviceId, childList);
@@ -214,7 +214,7 @@ public class WindowsUsbDevice extends AbstractUsbDevice {
             productId = m.group(2).toLowerCase();
         }
         List<String> pnpDeviceIds = hubMap.containsKey(hubDeviceId) ? hubMap.get(hubDeviceId) : new ArrayList<String>();
-        List<WindowsUsbDevice> usbDevices = new ArrayList<>();
+        List<WindowsUsbDevice> usbDevices = new ArrayList<WindowsUsbDevice>();
         for (String pnpDeviceId : pnpDeviceIds) {
             usbDevices.add(getDeviceAndChildren(pnpDeviceId, vendorId, productId));
         }

@@ -19,7 +19,6 @@
 package oshi.software.os.linux;
 
 import java.io.File;
-import java.nio.file.FileStore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -104,7 +103,7 @@ public class LinuxFileSystem extends AbstractFileSystem {
     @Override
     public OSFileStore[] getFileStores() {
         // List file systems
-        List<OSFileStore> fsList = new ArrayList<>();
+        List<OSFileStore> fsList = new ArrayList<OSFileStore>();
 
         // Parse /proc/self/mounts to get fs types
         List<String> mounts = FileUtil.readFile("/proc/self/mounts");
@@ -190,8 +189,10 @@ public class LinuxFileSystem extends AbstractFileSystem {
                 String[] splittedLine = osDescriptors.get(0).split("\\D+");
                 return Long.parseLong(splittedLine[index]);
             }
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+        } catch (NumberFormatException e) {
             LOG.trace("Unable to read value from {}", filename, e);
+        } catch (ArrayIndexOutOfBoundsException  e) {
+        	LOG.trace("Unable to read value from {}", filename, e);
         }
         return 0L;
     }

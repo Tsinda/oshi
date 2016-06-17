@@ -66,8 +66,8 @@ public class ExecutingCommand {
             return null;
         }
 
-        ArrayList<String> sa = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+        ArrayList<String> sa = new ArrayList<String>();
+        /*try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 sa.add(line);
@@ -79,7 +79,7 @@ public class ExecutingCommand {
         } catch (IOException e) {
             LOG.trace("", e);
             return null;
-        }
+        }*/
         return sa;
     }
 

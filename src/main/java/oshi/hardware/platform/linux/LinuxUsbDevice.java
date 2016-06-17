@@ -43,12 +43,12 @@ public class LinuxUsbDevice extends AbstractUsbDevice {
     /*
      * Maps to store information using device node path as the key
      */
-    private static Map<String, String> nameMap = new HashMap<>();
-    private static Map<String, String> vendorMap = new HashMap<>();
-    private static Map<String, String> vendorIdMap = new HashMap<>();
-    private static Map<String, String> productIdMap = new HashMap<>();
-    private static Map<String, String> serialMap = new HashMap<>();
-    private static Map<String, List<String>> hubMap = new HashMap<>();
+    private static Map<String, String> nameMap = new HashMap<String, String>();
+    private static Map<String, String> vendorMap = new HashMap<String, String>();
+    private static Map<String, String> vendorIdMap = new HashMap<String, String>();
+    private static Map<String, String> productIdMap = new HashMap<String, String>();
+    private static Map<String, String> serialMap = new HashMap<String, String>();
+    private static Map<String, List<String>> hubMap = new HashMap<String, List<String>>();
 
     /**
      * {@inheritDoc}
@@ -64,7 +64,7 @@ public class LinuxUsbDevice extends AbstractUsbDevice {
         UdevListEntry devices = Udev.INSTANCE.udev_enumerate_get_list_entry(enumerate);
 
         // Build a list of devices with no parent; these will be the roots
-        List<String> usbControllers = new ArrayList<>();
+        List<String> usbControllers = new ArrayList<String>();
         // Empty out maps
         nameMap.clear();
         vendorMap.clear();
@@ -149,7 +149,7 @@ public class LinuxUsbDevice extends AbstractUsbDevice {
         String vendorId = vendorIdMap.containsKey(devPath) ? vendorIdMap.get(devPath) : vid;
         String productId = productIdMap.containsKey(devPath) ? productIdMap.get(devPath) : pid;
         List<String> childPaths = hubMap.containsKey(devPath) ? hubMap.get(devPath) : new ArrayList<String>();
-        List<LinuxUsbDevice> usbDevices = new ArrayList<>();
+        List<LinuxUsbDevice> usbDevices = new ArrayList<LinuxUsbDevice>();
         for (String path : childPaths) {
             usbDevices.add(getDeviceAndChildren(path, vid, pid));
         }

@@ -68,7 +68,7 @@ public class WindowsFileSystem extends AbstractFileSystem {
         result = getLocalVolumes();
 
         // Build a map of existing mount point to OSFileStore
-        Map<String, OSFileStore> volumeMap = new HashMap<>();
+        Map<String, OSFileStore> volumeMap = new HashMap<String, OSFileStore>();
         for (OSFileStore volume : result) {
             volumeMap.put(volume.getMount(), volume);
         }
@@ -103,7 +103,7 @@ public class WindowsFileSystem extends AbstractFileSystem {
         boolean retVal;
         char[] aVolume, fstype, name, mount;
 
-        fs = new ArrayList<>();
+        fs = new ArrayList<OSFileStore>();
         aVolume = new char[BUFSIZE];
 
         hVol = Kernel32.INSTANCE.FindFirstVolume(aVolume, BUFSIZE);
@@ -157,7 +157,7 @@ public class WindowsFileSystem extends AbstractFileSystem {
         String volume, s;
         long free, total;
 
-        fs = new ArrayList<>();
+        fs = new ArrayList<OSFileStore>();
 
         drives = WmiUtil.selectStringsFrom(null, "Win32_LogicalDisk",
                 "Name,Description,ProviderName,FileSystem,Freespace,Size", null);

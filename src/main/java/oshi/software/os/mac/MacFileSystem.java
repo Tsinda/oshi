@@ -20,8 +20,6 @@ package oshi.software.os.mac;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileStore;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +63,7 @@ public class MacFileSystem extends AbstractFileSystem {
      */
     public OSFileStore[] getFileStores() {
         // Use getfsstat to map filesystem paths to types
-        Map<String, String> fstype = new HashMap<>();
+        Map<String, String> fstype = new HashMap<String, String>();
         // Query with null to get total # required
         int numfs = SystemB.INSTANCE.getfsstat64(null, 0, 0);
         if (numfs > 0) {
@@ -80,7 +78,7 @@ public class MacFileSystem extends AbstractFileSystem {
             }
         }
         // Now list file systems
-        List<OSFileStore> fsList = new ArrayList<>();
+        List<OSFileStore> fsList = new ArrayList<OSFileStore>();
         FileSystemView fsv = FileSystemView.getFileSystemView();
         // Mac file systems are mounted in /Volumes
         File volumes = new File("/Volumes");
@@ -98,13 +96,13 @@ public class MacFileSystem extends AbstractFileSystem {
                     path = f.getCanonicalPath();
                     if (path.equals("/"))
                         name = name + " (/)";
-                    FileStore fs = Files.getFileStore(f.toPath());
+                    /*FileStore fs = Files.getFileStore(f.toPath());
                     if (localDisk.matcher(fs.name()).matches()) {
                         description = "Local Disk";
                     }
                     if (fs.name().startsWith("localhost:") || fs.name().startsWith("//")) {
                         description = "Network Drive";
-                    }
+                    }*/
                     if (fstype.containsKey(path)) {
                         type = fstype.get(path);
                     }

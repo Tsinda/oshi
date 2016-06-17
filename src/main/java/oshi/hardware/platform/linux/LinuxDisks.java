@@ -60,7 +60,7 @@ public class LinuxDisks extends AbstractDisks {
         Udev.UdevEnumerate enumerate = null;
         Udev.UdevListEntry entry, oldEntry;
 
-        result = new ArrayList<>();
+        result = new ArrayList<HWDiskStore>();
 
         handle = Udev.INSTANCE.udev_new();
         enumerate = Udev.INSTANCE.udev_enumerate_new(handle);

@@ -20,12 +20,12 @@ package oshi.hardware.platform.linux;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.sun.jna.platform.FileUtils;
 
 import oshi.hardware.common.AbstractSensors;
 import oshi.util.FileUtil;
@@ -50,7 +50,7 @@ public class LinuxSensors extends AbstractSensors {
         // Iterate over all hwmon* directories and look for sensor files
         // e.g. /sys/class/hwmon/hwmon0/temp1_input
         int i = 0;
-        while (Files.isDirectory(Paths.get(HWMON + i))) {
+        while (new File(HWMON + i).isDirectory()) {
             for (String sensor : SENSORS) {
                 String path = String.format("%s%d", HWMON, i);
                 // Final to pass to anonymous class

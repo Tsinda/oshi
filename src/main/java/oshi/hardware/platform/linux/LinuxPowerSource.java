@@ -59,7 +59,7 @@ public class LinuxPowerSource extends AbstractPowerSource {
         // Empty directory will give null rather than empty array, so fix
         if (psNames == null)
             psNames = new String[0];
-        List<LinuxPowerSource> psList = new ArrayList<>(psNames.length);
+        List<LinuxPowerSource> psList = new ArrayList<LinuxPowerSource>(psNames.length);
         // For each power source, output various info
         for (String psName : psNames) {
             // Skip if name is ADP* (AC power supply)

@@ -222,7 +222,7 @@ public class MacCentralProcessor extends AbstractCentralProcessor {
      */
     @Override
     public OSProcess[] getProcesses() {
-        List<OSProcess> procs = new ArrayList<>();
+        List<OSProcess> procs = new ArrayList<OSProcess>();
         int[] pids = new int[this.maxProc];
         int numberOfProcesses = SystemB.INSTANCE.proc_listpids(SystemB.PROC_ALL_PIDS, 0, pids, pids.length)
                 / SystemB.INT_SIZE;

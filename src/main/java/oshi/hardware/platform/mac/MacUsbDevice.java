@@ -50,12 +50,12 @@ public class MacUsbDevice extends AbstractUsbDevice {
     /*
      * Maps to store information using RegistryEntryID as the key
      */
-    private static Map<Long, String> nameMap = new HashMap<>();
-    private static Map<Long, String> vendorMap = new HashMap<>();
-    private static Map<Long, String> vendorIdMap = new HashMap<>();
-    private static Map<Long, String> productIdMap = new HashMap<>();
-    private static Map<Long, String> serialMap = new HashMap<>();
-    private static Map<Long, List<Long>> hubMap = new HashMap<>();
+    private static Map<Long, String> nameMap = new HashMap<Long, String>();
+    private static Map<Long, String> vendorMap = new HashMap<Long, String>();
+    private static Map<Long, String> vendorIdMap = new HashMap<Long, String>();
+    private static Map<Long, String> productIdMap = new HashMap<Long, String>();
+    private static Map<Long, String> serialMap = new HashMap<Long, String>();
+    private static Map<Long, List<Long>> hubMap = new HashMap<Long, List<Long>>();
 
     /**
      * {@inheritDoc}
@@ -74,7 +74,7 @@ public class MacUsbDevice extends AbstractUsbDevice {
 
         // Iterate over USB Controllers. All devices are children of one of
         // these controllers in the "IOService" plane
-        List<Long> usbControllers = new ArrayList<>();
+        List<Long> usbControllers = new ArrayList<Long>();
         IntByReference iter = new IntByReference();
         IOKitUtil.getMatchingServices("IOUSBController", iter);
         int device = IOKit.INSTANCE.IOIteratorNext(iter.getValue());
@@ -234,7 +234,7 @@ public class MacUsbDevice extends AbstractUsbDevice {
         String vendorId = vendorIdMap.containsKey(registryEntryId) ? vendorIdMap.get(registryEntryId) : vid;
         String productId = productIdMap.containsKey(registryEntryId) ? productIdMap.get(registryEntryId) : pid;
         List<Long> childIds = hubMap.containsKey(registryEntryId) ? hubMap.get(registryEntryId) : new ArrayList<Long>();
-        List<MacUsbDevice> usbDevices = new ArrayList<>();
+        List<MacUsbDevice> usbDevices = new ArrayList<MacUsbDevice>();
         for (Long id : childIds) {
             usbDevices.add(getDeviceAndChildren(id, vendorId, productId));
         }

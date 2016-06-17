@@ -41,8 +41,8 @@ public class WindowsDisks extends AbstractDisks {
     /**
      * Maps to store read/write bytes per drive index
      */
-    private static Map<String, Long> readMap = new HashMap<>();
-    private static Map<String, Long> writeMap = new HashMap<>();
+    private static Map<String, Long> readMap = new HashMap<String, Long>();
+    private static Map<String, Long> writeMap = new HashMap<String, Long>();
 
     private static final ValueType[] DRIVE_TYPES = { ValueType.STRING, ValueType.STRING, ValueType.STRING,
             ValueType.STRING, ValueType.STRING, ValueType.LONG };
@@ -50,7 +50,7 @@ public class WindowsDisks extends AbstractDisks {
     @Override
     public HWDiskStore[] getDisks() {
         List<HWDiskStore> result;
-        result = new ArrayList<>();
+        result = new ArrayList<HWDiskStore>();
         readMap.clear();
         writeMap.clear();
         populateReadWriteMaps();

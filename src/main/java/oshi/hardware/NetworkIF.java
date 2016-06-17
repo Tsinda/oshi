@@ -93,8 +93,8 @@ public class NetworkIF implements OshiJsonObject {
             }
             this.mac = sb.toString();
             // Set IP arrays
-            ArrayList<String> ipv4list = new ArrayList<>();
-            ArrayList<String> ipv6list = new ArrayList<>();
+            ArrayList<String> ipv4list = new ArrayList<String>();
+            ArrayList<String> ipv6list = new ArrayList<String>();
             for (InetAddress address : Collections.list(networkInterface.getInetAddresses())) {
                 if (address.getHostAddress().length() == 0) {
                     continue;

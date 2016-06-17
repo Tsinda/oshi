@@ -56,7 +56,7 @@ public class MacDisks extends AbstractDisks {
 
     @Override
     public HWDiskStore[] getDisks() {
-        List<HWDiskStore> result = new ArrayList<>();
+        List<HWDiskStore> result = new ArrayList<HWDiskStore>();
 
         // Use statfs to find all drives
         int numfs = SystemB.INSTANCE.getfsstat64(null, 0, 0);

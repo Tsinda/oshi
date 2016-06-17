@@ -34,115 +34,112 @@ import oshi.util.FileUtil;
  */
 public class LinuxGlobalMemory extends AbstractGlobalMemory {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(LinuxGlobalMemory.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LinuxGlobalMemory.class);
 
-    // Values read from /proc/meminfo used for other calculations
-    private long memFree = 0;
-    private long activeFile = 0;
-    private long inactiveFile = 0;
-    private long sReclaimable = 0;
-    private long swapFree = 0;
+	// Values read from /proc/meminfo used for other calculations
+	private long memFree = 0;
+	private long activeFile = 0;
+	private long inactiveFile = 0;
+	private long sReclaimable = 0;
+	private long swapFree = 0;
 
-    private long lastUpdate = 0;
+	private long lastUpdate = 0;
 
-    /**
-     * Updates instance variables from reading /proc/meminfo no more frequently
-     * than every 100ms. While most of the information is available in the
-     * sysinfo structure, the most accurate calculation of MemAvailable is only
-     * available from reading this pseudo-file. The maintainers of the Linux
-     * Kernel have indicated this location will be kept up to date if the
-     * calculation changes: see
-     * https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?
-     * id=34e431b0ae398fc54ea69ff85ec700722c9da773
-     * 
-     * Internally, reading /proc/meminfo is faster than sysinfo because it only
-     * spends time populating the memory components of the sysinfo structure.
-     */
-    protected void updateMeminfo() {
-        long now = System.currentTimeMillis();
-        if (now - this.lastUpdate > 100) {
-            List<String> memInfo = null;
-            memInfo = FileUtil.readFile("/proc/meminfo");
-            if (memInfo.isEmpty()) {
-                return;
-            }
-            boolean found = false;
-            for (String checkLine : memInfo) {
-                String[] memorySplit = checkLine.split("\\s+");
-                if (memorySplit.length > 1) {
-                    switch (memorySplit[0]) {
-                    case "MemTotal:":
-                        this.memTotal = parseMeminfo(memorySplit);
-                        break;
-                    case "MemFree:":
-                        this.memFree = parseMeminfo(memorySplit);
-                        break;
-                    case "MemAvailable:":
-                        this.memAvailable = parseMeminfo(memorySplit);
-                        found = true;
-                        break;
-                    case "Active(file):":
-                        this.activeFile = parseMeminfo(memorySplit);
-                        break;
-                    case "Inactive(file):":
-                        this.inactiveFile = parseMeminfo(memorySplit);
-                        break;
-                    case "SReclaimable:":
-                        this.sReclaimable = parseMeminfo(memorySplit);
-                        break;
-                    case "SwapTotal:":
-                        this.swapTotal = parseMeminfo(memorySplit);
-                        break;
-                    case "SwapFree:":
-                        this.swapFree = parseMeminfo(memorySplit);
-                        break;
-                    default:
-                        // do nothing with other lines
-                        break;
-                    }
-                }
-            }
-            this.swapUsed = this.swapTotal - this.swapFree;
-            // If no MemAvailable, calculate from other fields
-            if (!found) {
-                this.memAvailable = this.memFree + this.activeFile + this.inactiveFile + this.sReclaimable;
-            }
+	/**
+	 * Updates instance variables from reading /proc/meminfo no more frequently
+	 * than every 100ms. While most of the information is available in the
+	 * sysinfo structure, the most accurate calculation of MemAvailable is only
+	 * available from reading this pseudo-file. The maintainers of the Linux
+	 * Kernel have indicated this location will be kept up to date if the
+	 * calculation changes: see
+	 * https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?
+	 * id=34e431b0ae398fc54ea69ff85ec700722c9da773
+	 * 
+	 * Internally, reading /proc/meminfo is faster than sysinfo because it only
+	 * spends time populating the memory components of the sysinfo structure.
+	 */
+	protected void updateMeminfo() {
+		long now = System.currentTimeMillis();
+		if (now - this.lastUpdate > 100) {
+			List<String> memInfo = null;
+			memInfo = FileUtil.readFile("/proc/meminfo");
+			if (memInfo.isEmpty()) {
+				return;
+			}
+			boolean found = false;
+			for (String checkLine : memInfo) {
+				String[] memorySplit = checkLine.split("\\s+");
+				if (memorySplit.length > 1) {
+					if (memorySplit[0].equals("MemTotal:")) {
+						this.memTotal = parseMeminfo(memorySplit);
+						break;
+					} else if (memorySplit[0].equals("MemFree:")) {
+						this.memFree = parseMeminfo(memorySplit);
+						break;
+					} else if (memorySplit[0].equals("MemAvailable:")) {
+						this.memAvailable = parseMeminfo(memorySplit);
+						found = true;
+						break;
+					} else if (memorySplit[0].equals("Active(file):")) {
+						this.activeFile = parseMeminfo(memorySplit);
+						break;
+					} else if (memorySplit[0].equals("Inactive(file):")) {
+						this.inactiveFile = parseMeminfo(memorySplit);
+						break;
+					} else if (memorySplit[0].equals("SReclaimable:")) {
+						this.sReclaimable = parseMeminfo(memorySplit);
+						break;
+					} else if (memorySplit[0].equals("SwapTotal:")) {
+						this.swapTotal = parseMeminfo(memorySplit);
+						break;
+					} else if (memorySplit[0].equals("SwapFree:")) {
+						this.swapFree = parseMeminfo(memorySplit);
+						break;
+					} else
+						break;
+				}
+			}
+			this.swapUsed = this.swapTotal - this.swapFree;
+			// If no MemAvailable, calculate from other fields
+			if (!found) {
+				this.memAvailable = this.memFree + this.activeFile + this.inactiveFile + this.sReclaimable;
+			}
 
-            this.lastUpdate = now;
-        }
-    }
+			this.lastUpdate = now;
+		}
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void updateSwap() {
-        updateMeminfo();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void updateSwap() {
+		updateMeminfo();
+	}
 
-    /**
-     * Parses lines from the display of /proc/meminfo
-     * 
-     * @param memorySplit
-     *            Array of Strings representing the 3 columns of /proc/meminfo
-     * @return value, multiplied by 1024 if kB is specified
-     */
-    private long parseMeminfo(String[] memorySplit) {
-        if (memorySplit.length < 2) {
-            return 0l;
-        }
-        long memory = 0L;
-        try {
-            memory = Long.parseLong(memorySplit[1]);
-        } catch (NumberFormatException nfe) {
-            LOG.error("Unable to parse {} to a long integer.", memorySplit[1]);
-            return 0L;
-        }
-        if (memorySplit.length > 2 && memorySplit[2].equals("kB")) {
-            memory *= 1024;
-        }
-        return memory;
-    }
+	/**
+	 * Parses lines from the display of /proc/meminfo
+	 * 
+	 * @param memorySplit
+	 *            Array of Strings representing the 3 columns of /proc/meminfo
+	 * @return value, multiplied by 1024 if kB is specified
+	 */
+	private long parseMeminfo(String[] memorySplit) {
+		if (memorySplit.length < 2) {
+			return 0l;
+		}
+		long memory = 0L;
+		try {
+			memory = Long.parseLong(memorySplit[1]);
+		} catch (NumberFormatException nfe) {
+			LOG.error("Unable to parse {} to a long integer.", memorySplit[1]);
+			return 0L;
+		}
+		if (memorySplit.length > 2 && memorySplit[2].equals("kB")) {
+			memory *= 1024;
+		}
+		return memory;
+	}
 }

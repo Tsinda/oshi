@@ -42,11 +42,11 @@ public class WindowsNetworks extends AbstractNetworks {
     public void updateNetworkStats(NetworkIF netIF) {
         // Create new MIB_IFROW and set index to this interface index
         MIB_IFROW ifRow = new MIB_IFROW();
-        ifRow.dwIndex = netIF.getNetworkInterface().getIndex();
+        //ifRow.dwIndex = netIF.getNetworkInterface().getIndex();
         if (0 != IPHlpAPI.INSTANCE.GetIfEntry(ifRow)) {
             // Error, abort
-            LOG.error("Failed to retrieve data for interface {}, {}", netIF.getNetworkInterface().getIndex(),
-                    netIF.getName());
+            //LOG.error("Failed to retrieve data for interface {}, {}", netIF.getNetworkInterface().getIndex(),
+                    //netIF.getName());
             return;
         }
 

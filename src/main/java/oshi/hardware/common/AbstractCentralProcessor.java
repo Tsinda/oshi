@@ -75,7 +75,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
         try {
             Class.forName("com.sun.management.OperatingSystemMXBean");
             // Initialize CPU usage
-            lastCpuLoad = ((com.sun.management.OperatingSystemMXBean) OS_MXBEAN).getSystemCpuLoad();
+            lastCpuLoad = ((com.sun.management.OperatingSystemMXBean) OS_MXBEAN).getSystemLoadAverage();
             lastCpuLoadTime = System.currentTimeMillis();
             sunMXBean = true;
             LOG.debug("Oracle MXBean detected.");
@@ -414,7 +414,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
             if (now - lastCpuLoadTime < 200) {
                 return lastCpuLoad;
             }
-            lastCpuLoad = ((com.sun.management.OperatingSystemMXBean) OS_MXBEAN).getSystemCpuLoad();
+            lastCpuLoad = ((com.sun.management.OperatingSystemMXBean) OS_MXBEAN).getSystemLoadAverage();
             lastCpuLoadTime = now;
             return lastCpuLoad;
         }

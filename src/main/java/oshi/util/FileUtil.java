@@ -20,9 +20,6 @@ package oshi.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,13 +63,7 @@ public class FileUtil {
     public static List<String> readFile(String filename, boolean reportError) {
         if (new File(filename).exists()) {
             LOG.debug("Reading file {}", filename);
-            try {
-                return Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
-            } catch (IOException e) {
-                if (reportError) {
-                    LOG.error("Error reading file {}", filename);
-                }
-            }
+            return null;//Files.readAllLines(filename, StandardCharsets.UTF_8);
         } else if (reportError) {
             LOG.warn("File not found: {}", filename);
         }

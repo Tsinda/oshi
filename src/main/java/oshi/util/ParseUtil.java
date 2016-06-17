@@ -19,13 +19,8 @@
 package oshi.util;
 
 import java.io.StringWriter;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,7 +62,7 @@ public abstract class ParseUtil {
     final private static Map<String, Long> multipliers;
 
     static {
-        multipliers = new HashMap<>();
+        multipliers = new HashMap<String, Long>();
         multipliers.put(Hertz, 1L);
         multipliers.put(kiloHertz, 1000L);
         multipliers.put(megaHertz, 1000000L);
@@ -279,7 +274,7 @@ public abstract class ParseUtil {
      * Format for parsing DATETIME originally 20160513072950.782000-420,
      * modified to 20160513072950.782000-07:00
      */
-    private static DateTimeFormatter CIM_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss.SSSSSSZZZZZ", Locale.US);
+    //private static DateTimeFormatter CIM_FORMAT = DateTimeFormatter.ofPattern("yyyyMMddHHmmss.SSSSSSZZZZZ", Locale.US);
 
     /**
      * Parses a CIM_DateTime format (from WMI) to milliseconds since the epoch.
@@ -290,7 +285,7 @@ public abstract class ParseUtil {
      * @return The corresponding DateTime as a number of milliseconds since the
      *         epoch
      */
-    public static long cimDateTimeToMillis(String cimDate) {
+    /*public static long cimDateTimeToMillis(String cimDate) {
         // Keep first 22 characters: digits, decimal, and + or - sign of
         // time zone. Parse last 3 digits from minutes to HH:mm
         try {
@@ -304,7 +299,7 @@ public abstract class ParseUtil {
                 | DateTimeParseException e) {
             return 0L;
         }
-    }
+    }*/
 
     /**
      * Parses a string of hex digits to a string

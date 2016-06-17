@@ -413,7 +413,7 @@ public class WindowsCentralProcessor extends AbstractCentralProcessor {
 
     private List<OSProcess> processMapToList(Map<String, List<Object>> procs) {
         long now = System.currentTimeMillis();
-        List<OSProcess> procList = new ArrayList<>();
+        List<OSProcess> procList = new ArrayList<OSProcess>();
         // All map lists should be the same length. Pick one size and iterate
         for (int p = 0; p < procs.get("Name").size(); p++) {
             try {

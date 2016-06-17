@@ -41,7 +41,7 @@ public class CfUtil {
     /**
      * Cache cfStrings
      */
-    private static Map<String, CFStringRef> cfStringMap = new HashMap<>();
+    private static Map<String, CFStringRef> cfStringMap = new HashMap<String, CFStringRef>();
 
     /**
      * Return a CFStringRef representing a string, caching the result

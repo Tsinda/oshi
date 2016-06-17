@@ -103,9 +103,9 @@ public class WmiUtil {
             String whereClause) {
         Map<String, List<Object>> result = queryWMI(namespace == null ? DEFAULT_NAMESPACE : namespace, properties,
                 wmiClass, whereClause, ValueType.LONG);
-        HashMap<String, List<Long>> longMap = new HashMap<>();
+        HashMap<String, List<Long>> longMap = new HashMap<String, List<Long>>();
         for (String key : result.keySet()) {
-            ArrayList<Long> longList = new ArrayList<>();
+            ArrayList<Long> longList = new ArrayList<Long>();
             for (Object obj : result.get(key)) {
                 longList.add((Long) obj);
             }
@@ -155,9 +155,9 @@ public class WmiUtil {
             String whereClause) {
         Map<String, List<Object>> result = queryWMI(namespace == null ? DEFAULT_NAMESPACE : namespace, properties,
                 wmiClass, whereClause, ValueType.FLOAT);
-        HashMap<String, List<Float>> floatMap = new HashMap<>();
+        HashMap<String, List<Float>> floatMap = new HashMap<String, List<Float>>();
         for (String key : result.keySet()) {
-            ArrayList<Float> floatList = new ArrayList<>();
+            ArrayList<Float> floatList = new ArrayList<Float>();
             for (Object obj : result.get(key)) {
                 floatList.add((Float) obj);
             }
@@ -207,9 +207,9 @@ public class WmiUtil {
             String whereClause) {
         Map<String, List<Object>> result = queryWMI(namespace == null ? DEFAULT_NAMESPACE : namespace, properties,
                 wmiClass, whereClause, ValueType.STRING);
-        HashMap<String, List<String>> strMap = new HashMap<>();
+        HashMap<String, List<String>> strMap = new HashMap<String, List<String>>();
         for (String key : result.keySet()) {
-            ArrayList<String> strList = new ArrayList<>();
+            ArrayList<String> strList = new ArrayList<String>();
             for (Object obj : result.get(key)) {
                 strList.add((String) obj);
             }
@@ -294,7 +294,7 @@ public class WmiUtil {
     private static Map<String, List<Object>> queryWMI(String namespace, String properties, String wmiClass,
             String whereClause, ValueType[] propertyTypes) {
         // Set up empty map
-        Map<String, List<Object>> values = new HashMap<>();
+        Map<String, List<Object>> values = new HashMap<String, List<Object>>();
         String[] props = properties.split(",");
         for (int i = 0; i < props.length; i++) {
             values.put(props[i], new ArrayList<Object>());
@@ -456,7 +456,7 @@ public class WmiUtil {
                 case DATETIME:
                     // Read a string in format 20160513072950.782000-420 and
                     // parse to a long representing ms since eopch
-                    values.get(property).add(ParseUtil.cimDateTimeToMillis(vtProp.stringValue()));
+                    //values.get(property).add(ParseUtil.cimDateTimeToMillis(vtProp.stringValue()));
                     break;
                 default:
                     // Should never get here!

@@ -8,6 +8,11 @@
 
 OSHI is a free JNA-based (native) operating system and hardware information library for Java. It doesn't require any additional native DLLs and aims to provide a cross-platform implementation to retrieve system information, such as version, memory, CPU, disk, battery, displays, etc.
 
+About This Fork
+----------
+* I forked OSHI to use it in OpenMRS System Monitor Module
+* I needed to support lower java version starting from 1.6 which i have done in this fork
+
 Essentials
 ----------
 * [Find OSHI on Maven Central](http://search.maven.org/#search|ga|1|oshi-core)

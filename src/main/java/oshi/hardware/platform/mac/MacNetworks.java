@@ -72,7 +72,7 @@ public class MacNetworks extends AbstractNetworks {
      * 
      * Key is the index of the IF.
      */
-    private Map<Integer, IFdata> ifMap = new HashMap<>();
+    private Map<Integer, IFdata> ifMap = new HashMap<Integer, IFdata>();
     private long lastIFmapTime = 0L;
 
     /**
@@ -137,7 +137,7 @@ public class MacNetworks extends AbstractNetworks {
         // Update data
         mapIFs();
 
-        Integer index = Integer.valueOf(netIF.getNetworkInterface().getIndex());
+        /*Integer index = Integer.valueOf(netIF.getNetworkInterface().getIndex());
         if (ifMap.containsKey(index)) {
             // Retrieve values from map and store
             IFdata ifData = ifMap.get(index);
@@ -146,6 +146,6 @@ public class MacNetworks extends AbstractNetworks {
             netIF.setPacketsSent(ifData.oPackets);
             netIF.setPacketsRecv(ifData.iPackets);
             netIF.setSpeed(ifData.speed);
-        }
+        }*/
     }
 }
