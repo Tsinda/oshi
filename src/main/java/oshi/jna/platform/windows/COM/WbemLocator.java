@@ -18,8 +18,8 @@
  */
 package oshi.jna.platform.windows.COM;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.NativeLong;
 import com.sun.jna.Pointer;
@@ -35,7 +35,7 @@ import com.sun.jna.ptr.PointerByReference;
 import oshi.jna.platform.windows.Ole32;
 
 public class WbemLocator extends Unknown {
-    private static final Logger LOG = LoggerFactory.getLogger(WbemLocator.class);
+    private static final Log LOG = LogFactory.getLog(WbemLocator.class);
 
     public static final CLSID CLSID_WbemLocator = new CLSID("4590f811-1d3a-11d0-891f-00aa004b2e24");
     public static final GUID IID_IWbemLocator = new GUID("dc12a687-737f-11cf-884d-00aa004b2e24");

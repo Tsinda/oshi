@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Advapi32Util;
@@ -57,7 +57,7 @@ public class WindowsCentralProcessor extends AbstractCentralProcessor {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(WindowsCentralProcessor.class);
+    private static final Log LOG = LogFactory.getLog(WindowsCentralProcessor.class);
 
     // PDH counters only give increments between calls so we maintain our own
     // "ticks" here
@@ -454,7 +454,7 @@ public class WindowsCentralProcessor extends AbstractCentralProcessor {
     public int getProcessCount() {
         PERFORMANCE_INFORMATION perfInfo = new PERFORMANCE_INFORMATION();
         if (!Psapi.INSTANCE.GetPerformanceInfo(perfInfo, perfInfo.size())) {
-            LOG.error("Failed to get Performance Info. Error code: {}", Kernel32.INSTANCE.GetLastError());
+            LOG.error("Failed to get Performance Info. Error code: " + Kernel32.INSTANCE.GetLastError());
             return 0;
         }
         return perfInfo.ProcessCount.intValue();
@@ -467,7 +467,7 @@ public class WindowsCentralProcessor extends AbstractCentralProcessor {
     public int getThreadCount() {
         PERFORMANCE_INFORMATION perfInfo = new PERFORMANCE_INFORMATION();
         if (!Psapi.INSTANCE.GetPerformanceInfo(perfInfo, perfInfo.size())) {
-            LOG.error("Failed to get Performance Info. Error code: {}", Kernel32.INSTANCE.GetLastError());
+            LOG.error("Failed to get Performance Info. Error code: " + Kernel32.INSTANCE.GetLastError());
             return 0;
         }
         return perfInfo.ThreadCount.intValue();

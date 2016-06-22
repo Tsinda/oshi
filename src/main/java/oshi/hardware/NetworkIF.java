@@ -30,8 +30,8 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.json.NullAwareJsonObjectBuilder;
 import oshi.json.OshiJsonObject;
@@ -45,7 +45,7 @@ public class NetworkIF implements OshiJsonObject {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(NetworkIF.class);
+    private static final Log LOG = LogFactory.getLog(NetworkIF.class);
 
     private JsonBuilderFactory jsonFactory = Json.createBuilderFactory(null);
 

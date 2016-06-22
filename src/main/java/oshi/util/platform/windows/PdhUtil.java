@@ -18,8 +18,8 @@
  */
 package oshi.util.platform.windows;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
@@ -33,7 +33,7 @@ import oshi.jna.platform.windows.Pdh.PdhFmtCounterValue;
  * @author widdis[at]gmail[dot]com
  */
 public class PdhUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(PdhUtil.class);
+    private static final Log LOG = LogFactory.getLog(PdhUtil.class);
 
     private static final IntByReference PZERO = new IntByReference(0);
 
@@ -47,7 +47,7 @@ public class PdhUtil {
     public static boolean openQuery(PointerByReference p) {
         int pdhOpenQueryError = Pdh.INSTANCE.PdhOpenQuery(null, PZERO, p);
         if (pdhOpenQueryError != 0) {
-            LOG.error("Failed to open PDH Query. Error code: {}", String.format("0x%08X", pdhOpenQueryError));
+            LOG.error("Failed to open PDH Query. Error code: " + String.format("0x%08X", pdhOpenQueryError));
         }
         return pdhOpenQueryError == 0;
     }
@@ -65,7 +65,7 @@ public class PdhUtil {
     public static void addCounter(PointerByReference query, String path, PointerByReference p) {
         int pdhAddCounterError = Pdh.INSTANCE.PdhAddEnglishCounterA(query.getValue(), path, PZERO, p);
         if (pdhAddCounterError != 0) {
-            LOG.error("Failed to add PDH Counter: {}, Error code: {}", path,
+            LOG.error("Failed to add PDH Counter: " + path + ", Error code: " +
                     String.format("0x%08X", pdhAddCounterError));
         }
     }
@@ -80,7 +80,7 @@ public class PdhUtil {
     public static boolean updateCounters(PointerByReference query) {
         int ret = Pdh.INSTANCE.PdhCollectQueryData(query.getValue());
         if (ret != 0) {
-            LOG.error("Failed to update counters. Error code: {}", String.format("0x%08X", ret));
+            LOG.error("Failed to update counters. Error code: " + String.format("0x%08X", ret));
             return false;
         }
         return true;
@@ -98,7 +98,7 @@ public class PdhUtil {
         int ret = Pdh.INSTANCE.PdhGetFormattedCounterValue(counter.getValue(), Pdh.PDH_FMT_LARGE | Pdh.PDH_FMT_1000,
                 null, counterValue);
         if (ret != 0) {
-            LOG.warn("Failed to get counter. Error code: {}", String.format("0x%08X", ret));
+            LOG.warn("Failed to get counter. Error code: " + String.format("0x%08X", ret));
             return 0L;
         }
         return counterValue.value.largeValue;

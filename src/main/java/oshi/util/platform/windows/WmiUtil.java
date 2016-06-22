@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.NativeLong;
 import com.sun.jna.Pointer;
@@ -41,7 +41,6 @@ import oshi.jna.platform.windows.COM.EnumWbemClassObject;
 import oshi.jna.platform.windows.COM.WbemClassObject;
 import oshi.jna.platform.windows.COM.WbemLocator;
 import oshi.jna.platform.windows.COM.WbemServices;
-import oshi.util.ParseUtil;
 
 /**
  * Provides access to WMI queries
@@ -49,7 +48,7 @@ import oshi.util.ParseUtil;
  * @author widdis[at]gmail[dot]com
  */
 public class WmiUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(WmiUtil.class);
+    private static final Log LOG = LogFactory.getLog(WmiUtil.class);
 
     public static final String DEFAULT_NAMESPACE = "ROOT\\CIMV2";
 
@@ -381,7 +380,7 @@ public class WmiUtil {
             Ole32.INSTANCE.CoUninitialize();
             return false;
         }
-        LOG.debug("Connected to {} WMI namespace", namespace);
+        LOG.debug("Connected to " + namespace +" WMI namespace");
         loc.Release();
 
         // Step 5: --------------------------------------------------
@@ -403,7 +402,7 @@ public class WmiUtil {
         // Use the IWbemServices pointer to make requests of WMI ----
         String query = String.format("SELECT %s FROM %s %s", properties, wmiClass,
                 whereClause != null ? whereClause : "");
-        LOG.debug("Query: {}", query);
+        LOG.debug("Query: " + query);
         HRESULT hres = svc.ExecQuery(new BSTR("WQL"), new BSTR(query),
                 new NativeLong(
                         EnumWbemClassObject.WBEM_FLAG_FORWARD_ONLY | EnumWbemClassObject.WBEM_FLAG_RETURN_IMMEDIATELY),

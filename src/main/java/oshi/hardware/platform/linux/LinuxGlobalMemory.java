@@ -20,8 +20,8 @@ package oshi.hardware.platform.linux;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.hardware.common.AbstractGlobalMemory;
 import oshi.util.FileUtil;
@@ -36,7 +36,7 @@ public class LinuxGlobalMemory extends AbstractGlobalMemory {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(LinuxGlobalMemory.class);
+	private static final Log LOG = LogFactory.getLog(LinuxGlobalMemory.class);
 
 	// Values read from /proc/meminfo used for other calculations
 	private long memFree = 0;
@@ -134,7 +134,7 @@ public class LinuxGlobalMemory extends AbstractGlobalMemory {
 		try {
 			memory = Long.parseLong(memorySplit[1]);
 		} catch (NumberFormatException nfe) {
-			LOG.error("Unable to parse {} to a long integer.", memorySplit[1]);
+			LOG.error("Unable to parse " + memorySplit[1] + " to a long integer.");
 			return 0L;
 		}
 		if (memorySplit.length > 2 && memorySplit[2].equals("kB")) {

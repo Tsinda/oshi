@@ -27,8 +27,8 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.hardware.CentralProcessor;
 import oshi.json.NullAwareJsonObjectBuilder;
@@ -47,7 +47,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractCentralProcessor.class);
+    private static final Log LOG = LogFactory.getLog(AbstractCentralProcessor.class);
 
     /**
      * Instantiate an OperatingSystemMXBean for future convenience
@@ -352,7 +352,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
     public synchronized double getSystemCpuLoadBetweenTicks() {
         // Check if > ~ 0.95 seconds since last tick count.
         long now = System.currentTimeMillis();
-        LOG.trace("Current time: {}  Last tick time: {}", now, tickTime);
+        //LOG.trace("Current time: {}  Last tick time: {}", now, tickTime);
         if (now - tickTime > 950) {
             // Enough time has elapsed.
             updateSystemTicks();
@@ -364,7 +364,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
         }
         // Calculate idle from last field [3]
         long idle = curTicks[3] - prevTicks[3];
-        LOG.trace("Total ticks: {}  Idle ticks: {}", total, idle);
+        //LOG.trace("Total ticks: {}  Idle ticks: {}", total, idle);
 
         return total > 0 && idle >= 0 ? (double) (total - idle) / total : 0d;
     }
@@ -442,7 +442,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
     public double[] getProcessorCpuLoadBetweenTicks() {
         // Check if > ~ 0.95 seconds since last tick count.
         long now = System.currentTimeMillis();
-        LOG.trace("Current time: {}  Last tick time: {}", now, procTickTime);
+        //LOG.trace("Current time: {}  Last tick time: {}", now, procTickTime);
         if (now - procTickTime > 950) {
             // Enough time has elapsed.
             // Update latest
@@ -456,7 +456,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
             }
             // Calculate idle from last field [3]
             long idle = this.curProcTicks[cpu][3] - this.prevProcTicks[cpu][3];
-            LOG.trace("CPU: {}  Total ticks: {}  Idle ticks: {}", cpu, total, idle);
+            //LOG.trace("CPU: {}  Total ticks: {}  Idle ticks: {}", cpu, total, idle);
             // update
             load[cpu] = total > 0 && idle >= 0 ? (double) (total - idle) / total : 0d;
         }

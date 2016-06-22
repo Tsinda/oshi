@@ -21,8 +21,8 @@ package oshi.hardware.platform.windows;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.platform.win32.Advapi32;
 import com.sun.jna.platform.win32.Guid;
@@ -46,7 +46,7 @@ public class WindowsDisplay extends AbstractDisplay {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(WindowsDisplay.class);
+    private static final Log LOG = LogFactory.getLog(WindowsDisplay.class);
 
     public WindowsDisplay(byte[] edid) {
         super(edid);

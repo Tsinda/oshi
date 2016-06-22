@@ -22,8 +22,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.ptr.IntByReference;
 
@@ -42,7 +42,7 @@ import oshi.util.Util;
  * @author widdis[at]gmail[dot]com
  */
 public class SmcUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(SmcUtil.class);
+    private static final Log LOG = LogFactory.getLog(SmcUtil.class);
 
     private static IOConnect conn = new IOConnect();
 

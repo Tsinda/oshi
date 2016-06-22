@@ -18,8 +18,8 @@
  */
 package oshi.util.platform.mac;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
@@ -35,7 +35,7 @@ import oshi.jna.platform.mac.SystemB;
  * @author widdis[at]gmail[dot]com
  */
 public class SysctlUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(SysctlUtil.class);
+    private static final Log LOG = LogFactory.getLog(SysctlUtil.class);
 
     /**
      * Executes a sysctl call with an int result
@@ -50,7 +50,7 @@ public class SysctlUtil {
         IntByReference size = new IntByReference(SystemB.INT_SIZE);
         Pointer p = new Memory(size.getValue());
         if (0 != SystemB.INSTANCE.sysctlbyname(name, p, size, null, 0)) {
-            LOG.error("Failed sysctl call: {}, Error code: {}", name, Native.getLastError());
+            LOG.error("Failed sysctl call: " + name + ", Error code: " + Native.getLastError());
             return def;
         }
         return p.getInt(0);
@@ -69,7 +69,7 @@ public class SysctlUtil {
         IntByReference size = new IntByReference(SystemB.UINT64_SIZE);
         Pointer p = new Memory(size.getValue());
         if (0 != SystemB.INSTANCE.sysctlbyname(name, p, size, null, 0)) {
-            LOG.error("Failed syctl call: {}, Error code: {}", name, Native.getLastError());
+            LOG.error("Failed syctl call: " + name + ", Error code: " + Native.getLastError());
             return def;
         }
         return p.getLong(0);
@@ -89,13 +89,13 @@ public class SysctlUtil {
         // Call first time with null pointer to get value of size
         IntByReference size = new IntByReference();
         if (0 != SystemB.INSTANCE.sysctlbyname(name, null, size, null, 0)) {
-            LOG.error("Failed syctl call: {}, Error code: {}", name, Native.getLastError());
+            LOG.error("Failed syctl call: " + name + ", Error code: " + Native.getLastError());
             return def;
         }
         // Add 1 to size for null terminated string
         Pointer p = new Memory(size.getValue() + 1);
         if (0 != SystemB.INSTANCE.sysctlbyname(name, p, size, null, 0)) {
-            LOG.error("Failed syctl call: {}, Error code: {}", name, Native.getLastError());
+            LOG.error("Failed syctl call: " + name + ", Error code: " + Native.getLastError());
             return def;
         }
         return p.getString(0);
@@ -112,7 +112,7 @@ public class SysctlUtil {
      */
     public static boolean sysctl(String name, Structure struct) {
         if (0 != SystemB.INSTANCE.sysctlbyname(name, struct.getPointer(), new IntByReference(struct.size()), null, 0)) {
-            LOG.error("Failed syctl call: {}, Error code: {}", name, Native.getLastError());
+            LOG.error("Failed syctl call: " + name + ", Error code: " + Native.getLastError());
             return false;
         }
         struct.read();

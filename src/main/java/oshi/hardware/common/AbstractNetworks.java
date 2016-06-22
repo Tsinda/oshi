@@ -30,8 +30,8 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonBuilderFactory;
 import javax.json.JsonObject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.hardware.NetworkIF;
 import oshi.hardware.Networks;
@@ -46,7 +46,7 @@ public abstract class AbstractNetworks implements Networks {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractNetworks.class);
+    private static final Log LOG = LogFactory.getLog(AbstractNetworks.class);
 
     private JsonBuilderFactory jsonFactory = Json.createBuilderFactory(null);
 

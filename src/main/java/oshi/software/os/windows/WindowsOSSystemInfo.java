@@ -18,8 +18,8 @@
  */
 package oshi.software.os.windows;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinBase.SYSTEM_INFO;
@@ -32,7 +32,7 @@ import com.sun.jna.ptr.IntByReference;
  * @author dblock[at]dblock[dot]org
  */
 public class WindowsOSSystemInfo {
-    private static final Logger LOG = LoggerFactory.getLogger(WindowsOSSystemInfo.class);
+    private static final Log LOG = LogFactory.getLog(WindowsOSSystemInfo.class);
 
     private SYSTEM_INFO _si = null;
 

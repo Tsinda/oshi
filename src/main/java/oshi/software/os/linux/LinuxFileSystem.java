@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.software.common.AbstractFileSystem;
 import oshi.software.os.OSFileStore;
@@ -42,7 +42,7 @@ public class LinuxFileSystem extends AbstractFileSystem {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(LinuxFileSystem.class);
+    private static final Log LOG = LogFactory.getLog(LinuxFileSystem.class);
 
     // Linux defines a set of virtual file systems
     private final List<String> pseudofs = Arrays.asList(new String[] {
@@ -190,9 +190,9 @@ public class LinuxFileSystem extends AbstractFileSystem {
                 return Long.parseLong(splittedLine[index]);
             }
         } catch (NumberFormatException e) {
-            LOG.trace("Unable to read value from {}", filename, e);
+            //LOG.trace("Unable to read value from {}", filename, e);
         } catch (ArrayIndexOutOfBoundsException  e) {
-        	LOG.trace("Unable to read value from {}", filename, e);
+        	//LOG.trace("Unable to read value from {}", filename, e);
         }
         return 0L;
     }

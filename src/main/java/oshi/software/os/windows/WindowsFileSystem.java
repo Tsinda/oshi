@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.platform.win32.WinNT;
 
@@ -45,7 +45,7 @@ public class WindowsFileSystem extends AbstractFileSystem {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(WindowsFileSystem.class);
+    private static final Log LOG = LogFactory.getLog(WindowsFileSystem.class);
     private final int BUFSIZE = 255;
 
     public WindowsFileSystem() {

@@ -21,8 +21,8 @@ package oshi.hardware.platform.mac;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
@@ -52,7 +52,7 @@ public class MacDisks extends AbstractDisks {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MacDisks.class);
+    private static final Log LOG = LogFactory.getLog(MacDisks.class);
 
     @Override
     public HWDiskStore[] getDisks() {
@@ -153,7 +153,7 @@ public class MacDisks extends AbstractDisks {
                         IntByReference parent = new IntByReference();
                         if (!IOKit.INSTANCE.IOObjectConformsTo(drive, "IOMedia")
                                 || IOKit.INSTANCE.IORegistryEntryGetParentEntry(drive, "IOService", parent) != 0) {
-                            LOG.error("Unable to find IOMedia device or parent for ", bsdName);
+                            LOG.error("Unable to find IOMedia device or parent for " + bsdName);
                             break;
                         }
                         PointerByReference propsPtr = new PointerByReference();
@@ -162,7 +162,7 @@ public class MacDisks extends AbstractDisks {
                                 || IOKit.INSTANCE.IORegistryEntryCreateCFProperties(parent.getValue(), propsPtr,
                                         CfUtil.ALLOCATOR, 0) != 0) {
                             IOKit.INSTANCE.IOObjectRelease(parent.getValue());
-                            LOG.error("Unable to find block storage driver properties for {}", bsdName);
+                            LOG.error("Unable to find block storage driver properties for " + bsdName);
                             break;
                         }
                         CFMutableDictionaryRef properties = new CFMutableDictionaryRef();

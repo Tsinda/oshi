@@ -28,8 +28,8 @@ import java.util.regex.Pattern;
 
 import javax.swing.filechooser.FileSystemView;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.jna.platform.mac.SystemB;
 import oshi.jna.platform.mac.SystemB.Statfs;
@@ -49,7 +49,7 @@ public class MacFileSystem extends AbstractFileSystem {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MacFileSystem.class);
+    private static final Log LOG = LogFactory.getLog(MacFileSystem.class);
 
     // Regexp matcher for /dev/disk1 etc.
     private static final Pattern localDisk = Pattern.compile("/dev/disk\\d");

@@ -19,12 +19,11 @@
 package oshi.util;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * File reading methods
@@ -32,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * @author widdis[at]gmail[dot]com
  */
 public class FileUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(FileUtil.class);
+    private static final Log LOG = LogFactory.getLog(FileUtil.class);
 
     /**
      * Read an entire file at one time. Intended primarily for Linux /proc
@@ -62,10 +61,10 @@ public class FileUtil {
      */
     public static List<String> readFile(String filename, boolean reportError) {
         if (new File(filename).exists()) {
-            LOG.debug("Reading file {}", filename);
+            LOG.debug("Reading file " + filename);
             return null;//Files.readAllLines(filename, StandardCharsets.UTF_8);
         } else if (reportError) {
-            LOG.warn("File not found: {}", filename);
+            LOG.warn("File not found: " + filename);
         }
         return new ArrayList<String>();
     }
@@ -79,15 +78,15 @@ public class FileUtil {
      * @return The value contained in the file, if any; otherwise zero
      */
     public static long getLongFromFile(String filename) {
-        LOG.debug("Reading file {}", filename);
+        LOG.debug("Reading file " + filename);
         try {
             List<String> read = FileUtil.readFile(filename, false);
             if (!read.isEmpty()) {
-                LOG.trace("Read {}", read.get(0));
+                LOG.trace("Read " + read.get(0));
                 return Long.parseLong(read.get(0));
             }
         } catch (NumberFormatException ex) {
-            LOG.debug("Unable to read value from {}", filename);
+            LOG.debug("Unable to read value from " + filename);
         }
         return 0L;
     }
@@ -101,15 +100,15 @@ public class FileUtil {
      * @return The value contained in the file, if any; otherwise zero
      */
     public static int getIntFromFile(String filename) {
-        LOG.debug("Reading file {}", filename);
+        LOG.debug("Reading file " + filename);
         try {
             List<String> read = FileUtil.readFile(filename, false);
             if (!read.isEmpty()) {
-                LOG.trace("Read {}", read.get(0));
+                LOG.trace("Read " + read.get(0));
                 return Integer.parseInt(read.get(0));
             }
         } catch (NumberFormatException ex) {
-            LOG.debug("Unable to read value from {}", filename);
+            LOG.debug("Unable to read value from " + filename);
         }
         return 0;
     }
@@ -123,10 +122,10 @@ public class FileUtil {
      * @return The value contained in the file, if any; otherwise emptpy string
      */
     public static String getStringFromFile(String filename) {
-        LOG.debug("Reading file {}", filename);
+        LOG.debug("Reading file " + filename);
         List<String> read = FileUtil.readFile(filename, false);
         if (!read.isEmpty()) {
-            LOG.trace("Read {}", read.get(0));
+            LOG.trace("Read " + read.get(0));
             return read.get(0);
         }
         return "";
@@ -141,10 +140,10 @@ public class FileUtil {
      * @return An array of strings containing delimited values
      */
     public static String[] getSplitFromFile(String filename) {
-        LOG.debug("Reading file {}", filename);
+        LOG.debug("Reading file " + filename);
         List<String> read = FileUtil.readFile(filename, false);
         if (!read.isEmpty()) {
-            LOG.trace("Read {}", read.get(0));
+            LOG.trace("Read " + read.get(0));
             return read.get(0).split("\\s+");
         }
         return new String[0];

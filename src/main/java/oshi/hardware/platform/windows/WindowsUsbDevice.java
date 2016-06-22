@@ -26,8 +26,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.SetupApi;
@@ -47,7 +47,7 @@ public class WindowsUsbDevice extends AbstractUsbDevice {
 
     private static final long serialVersionUID = 2L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(WindowsUsbDevice.class);
+    private static final Log LOG = LogFactory.getLog(WindowsUsbDevice.class);
 
     private static final Pattern VENDOR_PRODUCT_ID = Pattern
             .compile(".*(?:VID|VEN)_(\\p{XDigit}{4})&(?:PID|DEV)_(\\p{XDigit}{4}).*");
@@ -130,7 +130,7 @@ public class WindowsUsbDevice extends AbstractUsbDevice {
             // Start with all classes
             HANDLE hinfoSet = SetupApi.INSTANCE.SetupDiGetClassDevs(null, null, null, SetupApi.DIGCF_ALLCLASSES);
             if (hinfoSet == WinNT.INVALID_HANDLE_VALUE) {
-                LOG.error("Invalid handle value for {}. Error code: {}", deviceId, Native.getLastError());
+                LOG.error("Invalid handle value for " + deviceId + ". Error code: " + Native.getLastError());
                 return;
             }
             // Iterate to find matching parent
@@ -145,7 +145,7 @@ public class WindowsUsbDevice extends AbstractUsbDevice {
             }
         }
         if (devInst == 0) {
-            LOG.error("Unable to find a devnode handle for {}.", deviceId);
+            LOG.error("Unable to find a devnode handle for ." + deviceId);
             return;
         }
         // Now iterate the children. Call CM_Get_Child to get first child
@@ -180,14 +180,14 @@ public class WindowsUsbDevice extends AbstractUsbDevice {
     private static String getDeviceId(int devInst) {
         NativeLongByReference ulLen = new NativeLongByReference();
         if (0 != Cfgmgr32.INSTANCE.CM_Get_Device_ID_Size(ulLen, devInst, 0)) {
-            LOG.error("Couldn't get device string for device instance {}", devInst);
+            LOG.error("Couldn't get device string for device instance " + devInst);
             return "";
         }
         // Add 1 for null terminator
         int size = ulLen.getValue().intValue() + 1;
         char[] buffer = new char[size];
         if (0 != Cfgmgr32.INSTANCE.CM_Get_Device_ID(devInst, buffer, size, 0)) {
-            LOG.error("Couldn't get device string for device instance {} with size {}", devInst, size);
+            LOG.error("Couldn't get device string for device instance " + devInst + " with size " + size);
             return "";
         }
         return new String(buffer).trim();

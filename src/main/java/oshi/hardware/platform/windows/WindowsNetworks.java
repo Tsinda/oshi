@@ -18,8 +18,8 @@
  */
 package oshi.hardware.platform.windows;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.hardware.NetworkIF;
 import oshi.hardware.common.AbstractNetworks;
@@ -33,7 +33,7 @@ public class WindowsNetworks extends AbstractNetworks {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(WindowsNetworks.class);
+    private static final Log LOG = LogFactory.getLog(WindowsNetworks.class);
 
     /**
      * {@inheritDoc}

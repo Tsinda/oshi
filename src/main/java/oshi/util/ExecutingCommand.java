@@ -18,14 +18,12 @@
  */
 package oshi.util;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A class for executing on the command line and returning the result of
@@ -35,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ExecutingCommand {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ExecutingCommand.class);
+    private static final Log LOG = LogFactory.getLog(ExecutingCommand.class);
 
     /**
      * Executes a command on the native command line and returns the result.

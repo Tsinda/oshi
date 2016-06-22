@@ -24,8 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
@@ -52,7 +52,7 @@ public class LinuxCentralProcessor extends AbstractCentralProcessor {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(LinuxCentralProcessor.class);
+	private static final Log LOG = LogFactory.getLog(LinuxCentralProcessor.class);
 
 	/**
 	 * Create a Processor
@@ -374,7 +374,7 @@ public class LinuxCentralProcessor extends AbstractCentralProcessor {
 				}
 			} catch (NumberFormatException nfe) {
 				// Since we regexp matched digits this shouldn't ever get here
-				LOG.error("Couldn't parse {} to an integer.", pid.getName());
+				LOG.error("Couldn't parse" + pid.getName() + "to an integer.");
 			}
 		}
 		return procs.toArray(new OSProcess[procs.size()]);
@@ -413,7 +413,7 @@ public class LinuxCentralProcessor extends AbstractCentralProcessor {
 					System.currentTimeMillis() //
 			);
 		} catch (NumberFormatException e) {
-			LOG.error("Unable to parse /proc/{}/stat", pid);
+			LOG.error("Unable to parse /proc/ " + pid + "/stat");
 		}
 		return null;
 	}
@@ -447,9 +447,9 @@ public class LinuxCentralProcessor extends AbstractCentralProcessor {
 			}
 			return info.procs;
 		} catch (UnsatisfiedLinkError e) {
-			LOG.error("Failed to get procs from sysinfo. {}", e.getMessage());
+			LOG.error("Failed to get procs from sysinfo. " + e.getMessage());
 		} catch (NoClassDefFoundError e) {
-			LOG.error("Failed to get procs from sysinfo. {}", e.getMessage());
+			LOG.error("Failed to get procs from sysinfo. " + e.getMessage());
 		}
 		return 0;
 	}

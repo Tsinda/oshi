@@ -22,8 +22,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.software.common.AbstractOperatingSystem;
 import oshi.util.ExecutingCommand;
@@ -39,7 +39,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOG = LoggerFactory.getLogger(LinuxOperatingSystem.class);
+	private static final Log LOG = LogFactory.getLog(LinuxOperatingSystem.class);
 
 	// Populated with results of reading /etc/os-release or other files
 	protected String versionId;
@@ -120,7 +120,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
 			// Search for NAME=
 			for (String line : osRelease) {
 				if (line.startsWith("VERSION=")) {
-					LOG.debug("os-release: {}", line);
+					LOG.debug("os-release: " + line);
 					// remove beginning and ending '"' characters, etc from
 					// VERSION="14.04.4 LTS, Trusty Tahr" (Ubuntu style)
 					// or VERSION="17 (Beefy Miracle)" (os-release doc style)
@@ -137,12 +137,12 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
 						this.codeName = split[1].trim();
 					}
 				} else if (line.startsWith("NAME=") && this.family == null) {
-					LOG.debug("os-release: {}", line);
+					LOG.debug("os-release: " + line);
 					// remove beginning and ending '"' characters, etc from
 					// NAME="Ubuntu"
 					this.family = line.replace("NAME=", "").replaceAll("^\"|\"$", "").trim();
 				} else if (line.startsWith("VERSION_ID=") && this.versionId == null) {
-					LOG.debug("os-release: {}", line);
+					LOG.debug("os-release: " + line);
 					// remove beginning and ending '"' characters, etc from
 					// VERSION_ID="14.04"
 					this.versionId = line.replace("VERSION_ID=", "").replaceAll("^\"|\"$", "").trim();
@@ -167,19 +167,19 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
 			// distribution concatenated, e.g., RedHat instead of Red Hat
 			for (String line : osRelease) {
 				if (line.startsWith("Description:")) {
-					LOG.debug("lsb_release -a: {}", line);
+					LOG.debug("lsb_release -a: " + line);
 					line = line.replace("Description:", "").trim();
 					if (line.contains(" release ")) {
 						this.family = parseRelease(line, " release ");
 					}
 				} else if (line.startsWith("Distributor ID:") && this.family == null) {
-					LOG.debug("lsb_release -a: {}", line);
+					LOG.debug("lsb_release -a: " + line);
 					this.family = line.replace("Distributor ID:", "").trim();
 				} else if (line.startsWith("Release:") && this.versionId == null) {
-					LOG.debug("lsb_release -a: {}", line);
+					LOG.debug("lsb_release -a: " + line);
 					this.versionId = line.replace("Release:", "").trim();
 				} else if (line.startsWith("Codename:") && this.codeName == null) {
-					LOG.debug("lsb_release -a: {}", line);
+					LOG.debug("lsb_release -a: " + line);
 					this.codeName = line.replace("Codename:", "").trim();
 				}
 			}
@@ -199,19 +199,19 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
 			// Search for NAME=
 			for (String line : osRelease) {
 				if (line.startsWith("DISTRIB_DESCRIPTION=")) {
-					LOG.debug("lsb-release: {}", line);
+					LOG.debug("lsb-release: " + line);
 					line = line.replace("DISTRIB_DESCRIPTION=", "").replaceAll("^\"|\"$", "").trim();
 					if (line.contains(" release ")) {
 						this.family = parseRelease(line, " release ");
 					}
 				} else if (line.startsWith("DISTRIB_ID=") && this.family == null) {
-					LOG.debug("lsb-release: {}", line);
+					LOG.debug("lsb-release: " + line);
 					this.family = line.replace("DISTRIB_ID=", "").replaceAll("^\"|\"$", "").trim();
 				} else if (line.startsWith("DISTRIB_RELEASE=") && this.versionId == null) {
-					LOG.debug("lsb-release: {}", line);
+					LOG.debug("lsb-release: " + line);
 					this.versionId = line.replace("DISTRIB_RELEASE=", "").replaceAll("^\"|\"$", "").trim();
 				} else if (line.startsWith("DISTRIB_CODENAME=") && this.codeName == null) {
-					LOG.debug("lsb-release: {}", line);
+					LOG.debug("lsb-release: " + line);
 					this.codeName = line.replace("DISTRIB_CODENAME=", "").replaceAll("^\"|\"$", "").trim();
 				}
 			}
@@ -230,7 +230,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
 			List<String> osRelease = FileUtil.readFile(filename);
 			// Search for Distrib release x.x (Codename)
 			for (String line : osRelease) {
-				LOG.debug("{}: {}", filename, line);
+				LOG.debug(filename + ": " + line);
 				if (line.contains(" release ")) {
 					this.family = parseRelease(line, " release ");
 					// If this parses properly we're done

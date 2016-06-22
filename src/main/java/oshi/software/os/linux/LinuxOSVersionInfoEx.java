@@ -21,8 +21,8 @@ package oshi.software.os.linux;
 import java.io.File;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.software.common.AbstractOSVersionInfoEx;
 import oshi.util.ExecutingCommand;
@@ -32,7 +32,7 @@ public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(LinuxOSVersionInfoEx.class);
+    private static final Log LOG = LogFactory.getLog(LinuxOSVersionInfoEx.class);
 
     public LinuxOSVersionInfoEx() {
         this(null, null);
@@ -133,7 +133,7 @@ public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
             // Search for NAME=
             for (String line : osRelease) {
                 if (line.startsWith("VERSION=")) {
-                    LOG.debug("os-release: {}", line);
+                    LOG.debug("os-release: " + line);
                     // remove beginning and ending '"' characters, etc from
                     // VERSION="14.04.4 LTS, Trusty Tahr" (Ubuntu style)
                     // or VERSION="17 (Beefy Miracle)" (os-release doc style)
@@ -150,7 +150,7 @@ public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
                         this.codeName = split[1].trim();
                     }
                 } else if (line.startsWith("VERSION_ID=") && this.version == null) {
-                    LOG.debug("os-release: {}", line);
+                    LOG.debug("os-release: " + line);
                     // remove beginning and ending '"' characters, etc from
                     // VERSION_ID="14.04"
                     this.version = line.replace("VERSION_ID=", "").replaceAll("^\"|\"$", "").trim();
@@ -175,16 +175,17 @@ public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
             // distribution concatenated, e.g., RedHat instead of Red Hat
             for (String line : osRelease) {
                 if (line.startsWith("Description:")) {
-                    LOG.debug("lsb_release -a: {}", line);
+                    LOG.debug("lsb_release -a: " + line);
+                    
                     line = line.replace("Description:", "").trim();
                     if (line.contains(" release ")) {
                         this.version = parseRelease(line, " release ");
                     }
                 } else if (line.startsWith("Release:") && this.version == null) {
-                    LOG.debug("lsb_release -a: {}", line);
+                    LOG.debug("lsb_release -a: " + line);
                     this.version = line.replace("Release:", "").trim();
                 } else if (line.startsWith("Codename:") && this.codeName == null) {
-                    LOG.debug("lsb_release -a: {}", line);
+                    LOG.debug("lsb_release -a: " + line);
                     this.codeName = line.replace("Codename:", "").trim();
                 }
             }
@@ -204,16 +205,16 @@ public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
             // Search for NAME=
             for (String line : osRelease) {
                 if (line.startsWith("DISTRIB_DESCRIPTION=")) {
-                    LOG.debug("lsb-release: {}", line);
+                    LOG.debug("lsb-release: " + line);
                     line = line.replace("DISTRIB_DESCRIPTION=", "").replaceAll("^\"|\"$", "").trim();
                     if (line.contains(" release ")) {
                         this.version = parseRelease(line, " release ");
                     }
                 } else if (line.startsWith("DISTRIB_RELEASE=") && this.version == null) {
-                    LOG.debug("lsb-release: {}", line);
+                    LOG.debug("lsb-release: " + line);
                     this.version = line.replace("DISTRIB_RELEASE=", "").replaceAll("^\"|\"$", "").trim();
                 } else if (line.startsWith("DISTRIB_CODENAME=") && this.codeName == null) {
-                    LOG.debug("lsb-release: {}", line);
+                    LOG.debug("lsb-release: " + line);
                     this.codeName = line.replace("DISTRIB_CODENAME=", "").replaceAll("^\"|\"$", "").trim();
                 }
             }
@@ -232,7 +233,7 @@ public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
             List<String> osRelease = FileUtil.readFile(filename);
             // Search for Distrib release x.x (Codename)
             for (String line : osRelease) {
-                LOG.debug("{}: {}", filename, line);
+                LOG.debug(filename + ": " + line);
                 if (line.contains(" release ")) {
                     this.version = parseRelease(line, " release ");
                     // If this parses properly we're done

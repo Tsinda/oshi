@@ -21,8 +21,8 @@ package oshi.software.os.windows;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Advapi32Util;
@@ -39,14 +39,14 @@ public class WindowsOSVersionInfoEx extends AbstractOSVersionInfoEx {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(WindowsOSVersionInfoEx.class);
+    private static final Log LOG = LogFactory.getLog(WindowsOSVersionInfoEx.class);
 
     private OSVERSIONINFOEX versionInfo = null;
 
     public WindowsOSVersionInfoEx() {
         this.versionInfo = new OSVERSIONINFOEX();
         if (!Kernel32.INSTANCE.GetVersionEx(this.versionInfo)) {
-            LOG.error("Failed to Initialize OSVersionInfoEx. Error code: {}", Kernel32.INSTANCE.GetLastError());
+            LOG.error("Failed to Initialize OSVersionInfoEx. Error code: " + Kernel32.INSTANCE.GetLastError());
         }
         init();
         LOG.debug("Initialized OSVersionInfoEx");

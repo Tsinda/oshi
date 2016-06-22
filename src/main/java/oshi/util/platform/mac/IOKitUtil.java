@@ -18,8 +18,8 @@
  */
 package oshi.util.platform.mac;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
@@ -37,7 +37,7 @@ import oshi.jna.platform.mac.IOKit.MachPort;
  * @author widdis[at]gmail[dot]com
  */
 public class IOKitUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(IOKitUtil.class);
+    private static final Log LOG = LogFactory.getLog(IOKitUtil.class);
 
     private static MachPort masterPort = new MachPort();
 
@@ -85,7 +85,7 @@ public class IOKitUtil {
             int service = IOKit.INSTANCE.IOServiceGetMatchingService(masterPort.getValue(),
                     IOKit.INSTANCE.IOServiceMatching(serviceName));
             if (service == 0) {
-                LOG.error("No service found: {}", serviceName);
+                LOG.error("No service found: " + serviceName);
             }
             return service;
         }

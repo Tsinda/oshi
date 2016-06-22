@@ -21,8 +21,8 @@ package oshi.hardware.platform.mac;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
@@ -41,7 +41,7 @@ public class MacNetworks extends AbstractNetworks {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MacNetworks.class);
+    private static final Log LOG = LogFactory.getLog(MacNetworks.class);
 
     private static int CTL_NET = 4;
     private static int PF_ROUTE = 17;

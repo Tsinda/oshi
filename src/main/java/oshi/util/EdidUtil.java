@@ -24,8 +24,8 @@ import java.util.Arrays;
 
 import javax.xml.bind.DatatypeConverter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * EDID parsing utility.
@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class EdidUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EdidUtil.class);
+    private static final Log LOG = LogFactory.getLog(EdidUtil.class);
 
     /**
      * Converts a byte array to a hexadecimal string
@@ -59,7 +59,7 @@ public abstract class EdidUtil {
         String temp = String
                 .format("%8s%8s", Integer.toBinaryString(edid[8] & 0xFF), Integer.toBinaryString(edid[9] & 0xFF))
                 .replace(' ', '0');
-        LOG.debug("Manufacurer ID: {}", temp);
+        LOG.debug("Manufacurer ID: " + temp);
         return String.format("%s%s%s", (char) (64 + Integer.parseInt(temp.substring(1, 6), 2)),
                 (char) (64 + Integer.parseInt(temp.substring(7, 11), 2)),
                 (char) (64 + Integer.parseInt(temp.substring(12, 16), 2))).replace("@", "");
@@ -88,7 +88,7 @@ public abstract class EdidUtil {
      */
     public static String getSerialNo(byte[] edid) {
         // Bytes 12-15 are Serial number (last 4 characters)
-        LOG.debug("Serial number: {}", Arrays.toString(Arrays.copyOfRange(edid, 12, 16)));
+        LOG.debug("Serial number: " + Arrays.toString(Arrays.copyOfRange(edid, 12, 16)));
         return String.format("%s%s%s%s", getAlphaNumericOrHex(edid[15]), getAlphaNumericOrHex(edid[14]),
                 getAlphaNumericOrHex(edid[13]), getAlphaNumericOrHex(edid[12]));
     }
@@ -119,7 +119,7 @@ public abstract class EdidUtil {
     public static int getYear(byte[] edid) {
         // Byte 17 is manufacture year-1990
         byte temp = edid[17];
-        LOG.debug("Year-1990: {}", temp);
+        LOG.debug("Year-1990: " + temp);
         return temp + 1990;
     }
 

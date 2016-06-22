@@ -28,9 +28,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.sun.jna.Platform;
 
@@ -285,8 +285,8 @@ public class SystemInfoTest {
      */
     public static void main(String[] args) {
         // Options: ERROR > WARN > INFO > DEBUG > TRACE
-        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "INFO");
-        Logger LOG = LoggerFactory.getLogger(SystemInfoTest.class);
+        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "INFO");
+        Log LOG = LogFactory.getLog(SystemInfoTest.class);
 
         LOG.info("Initializing System...");
         SystemInfo si = new SystemInfo();

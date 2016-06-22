@@ -32,8 +32,8 @@ import javax.json.JsonWriterFactory;
 import javax.json.stream.JsonGenerator;
 import javax.xml.bind.DatatypeConverter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * String parsing utility.
@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class ParseUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ParseUtil.class);
+    private static final Log LOG = LogFactory.getLog(ParseUtil.class);
 
     /**
      * Hertz related variables.
@@ -139,7 +139,7 @@ public abstract class ParseUtil {
     public static byte[] hexStringToByteArray(String digits) {
         // Check if string is valid hex
         if (!VALID_HEX.matcher(digits).matches()) {
-            LOG.error("Invalid hexadecimal string: {}", digits);
+            LOG.error("Invalid hexadecimal string: " + digits);
             return null;
         }
         int len = digits.length();

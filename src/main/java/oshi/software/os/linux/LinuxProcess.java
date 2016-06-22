@@ -21,8 +21,8 @@ package oshi.software.os.linux;
 import java.io.File;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.software.common.AbstractProcess;
 import oshi.software.os.OSProcess;
@@ -42,7 +42,7 @@ public class LinuxProcess extends AbstractProcess {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(LinuxProcess.class);
+    private static final Log LOG = LogFactory.getLog(LinuxProcess.class);
 
     /**
      * Jiffies per second, used for process time counters.
@@ -85,7 +85,7 @@ public class LinuxProcess extends AbstractProcess {
                 }
             }
         }
-        LOG.debug("Youngest PID is {} with {} jiffies", youngestPid, youngestJiffies);
+        LOG.debug("Youngest PID is " + youngestPid + " with " + youngestJiffies + " jiffies");
         // Shouldn't happen but avoiding Division by zero
         if (youngestJiffies == 0) {
             LOG.error("Couldn't find any running processes, which is odd since we are in a running process. "
@@ -107,13 +107,13 @@ public class LinuxProcess extends AbstractProcess {
         // etime close to 0 in case this command fails; the longer the system
         // has been up, the less impact this assumption will have
         if (etime != null) {
-            LOG.debug("Etime is {} seconds", etime.trim());
+            LOG.debug("Etime is " + etime.trim() + " seconds");
             startTimeSecsSinceBoot -= Float.parseFloat(etime.trim());
         }
         // By subtracting etime (secs) from uptime (secs) we get uptime (in
         // secs) when the process was started. This correlates with startTime in
         // jiffies for this process
-        LOG.debug("Start time in secs: {}", startTimeSecsSinceBoot);
+        LOG.debug("Start time in secs: " + startTimeSecsSinceBoot);
         if (startTimeSecsSinceBoot <= 0) {
             LOG.warn("Couldn't calculate jiffies per second. "
                     + "Process time values are in jiffies, not milliseconds.");

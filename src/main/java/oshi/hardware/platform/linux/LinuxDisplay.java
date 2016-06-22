@@ -21,8 +21,8 @@ package oshi.hardware.platform.linux;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.hardware.Display;
 import oshi.hardware.common.AbstractDisplay;
@@ -38,7 +38,7 @@ public class LinuxDisplay extends AbstractDisplay {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(LinuxDisplay.class);
+    private static final Log LOG = LogFactory.getLog(LinuxDisplay.class);
 
     public LinuxDisplay(byte[] edid) {
         super(edid);
@@ -68,7 +68,7 @@ public class LinuxDisplay extends AbstractDisplay {
                     sb.append(s.trim());
                     if (sb.length() >= 256) {
                         String edidStr = sb.toString();
-                        LOG.debug("Parsed EDID: {}", edidStr);
+                        LOG.debug("Parsed EDID: " + edidStr);
                         byte[] edid = ParseUtil.hexStringToByteArray(edidStr);
                         if (edid != null) {
                             displays.add(new LinuxDisplay(edid));

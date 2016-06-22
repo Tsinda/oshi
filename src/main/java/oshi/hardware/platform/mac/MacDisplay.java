@@ -21,8 +21,8 @@ package oshi.hardware.platform.mac;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
@@ -45,7 +45,7 @@ public class MacDisplay extends AbstractDisplay {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(MacDisplay.class);
+    private static final Log LOG = LogFactory.getLog(MacDisplay.class);
 
     private static final CFStringRef cfEdid = CFStringRef.toCFString("IODisplayEDID");
 

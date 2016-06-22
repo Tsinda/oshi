@@ -21,8 +21,8 @@ package oshi.hardware.platform.linux;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import oshi.hardware.HWDiskStore;
 import oshi.hardware.common.AbstractDisks;
@@ -37,7 +37,7 @@ public class LinuxDisks extends AbstractDisks {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(LinuxDisks.class);
+    private static final Log LOG = LogFactory.getLog(LinuxDisks.class);
 
     private final int SECTORSIZE = 512;
 
@@ -93,7 +93,7 @@ public class LinuxDisks extends AbstractDisks {
                 }
                 entry = Udev.INSTANCE.udev_list_entry_get_next(oldEntry);
             } catch (NumberFormatException nfe) {
-                LOG.error("Problem parsing sector size for {}", store.getName());
+                LOG.error("Problem parsing sector size for " + store.getName());
                 break;
             } catch (Exception ex) {
                 LOG.debug("Reached all disks. Exiting ");
