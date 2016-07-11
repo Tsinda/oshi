@@ -18,12 +18,17 @@
  */
 package oshi.util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.sun.jna.platform.FileUtils;
 
 /**
  * File reading methods
@@ -31,121 +36,141 @@ import org.apache.commons.logging.LogFactory;
  * @author widdis[at]gmail[dot]com
  */
 public class FileUtil {
-    private static final Log LOG = LogFactory.getLog(FileUtil.class);
+	private static final Log LOG = LogFactory.getLog(FileUtil.class);
 
-    /**
-     * Read an entire file at one time. Intended primarily for Linux /proc
-     * filesystem to avoid recalculating file contents on iterative reads.
-     * 
-     * @param filename
-     *            The file to read
-     * 
-     * @return A list of Strings representing each line of the file, or an empty
-     *         list if file could not be read or is empty
-     */
-    public static List<String> readFile(String filename) {
-        return readFile(filename, true);
-    }
+	/**
+	 * Read an entire file at one time. Intended primarily for Linux /proc
+	 * filesystem to avoid recalculating file contents on iterative reads.
+	 * 
+	 * @param filename
+	 *            The file to read
+	 * 
+	 * @return A list of Strings representing each line of the file, or an empty
+	 *         list if file could not be read or is empty
+	 */
+	public static List<String> readFile(String filename) {
+		return readFile(filename, true);
+	}
 
-    /**
-     * Read an entire file at one time. Intended primarily for Linux /proc
-     * filesystem to avoid recalculating file contents on iterative reads.
-     * 
-     * @param filename
-     *            The file to read
-     * @param reportError
-     *            Whether to log errors reading the file
-     * 
-     * @return A list of Strings representing each line of the file, or an empty
-     *         list if file could not be read or is empty
-     */
-    public static List<String> readFile(String filename, boolean reportError) {
-        if (new File(filename).exists()) {
-            LOG.debug("Reading file " + filename);
-            return null;//Files.readAllLines(filename, StandardCharsets.UTF_8);
-        } else if (reportError) {
-            LOG.warn("File not found: " + filename);
-        }
-        return new ArrayList<String>();
-    }
+	/**
+	 * Read an entire file at one time. Intended primarily for Linux /proc
+	 * filesystem to avoid recalculating file contents on iterative reads.
+	 * 
+	 * @param filename
+	 *            The file to read
+	 * @param reportError
+	 *            Whether to log errors reading the file
+	 * 
+	 * @return A list of Strings representing each line of the file, or an empty
+	 *         list if file could not be read or is empty
+	 */
+	public static List<String> readFile(String filename, boolean reportError) {
+		File file = new File(filename);
+		List<String> lines = new ArrayList<String>();
 
-    /**
-     * Read a file and return the long value contained therein. Intended
-     * primarily for Linux /sys filesystem
-     * 
-     * @param filename
-     *            The file to read
-     * @return The value contained in the file, if any; otherwise zero
-     */
-    public static long getLongFromFile(String filename) {
-        LOG.debug("Reading file " + filename);
-        try {
-            List<String> read = FileUtil.readFile(filename, false);
-            if (!read.isEmpty()) {
-                LOG.trace("Read " + read.get(0));
-                return Long.parseLong(read.get(0));
-            }
-        } catch (NumberFormatException ex) {
-            LOG.debug("Unable to read value from " + filename);
-        }
-        return 0L;
-    }
+		if (file.exists()) {
+			LOG.debug("Reading file " + filename);
+			BufferedReader br = null;
 
-    /**
-     * Read a file and return the int value contained therein. Intended
-     * primarily for Linux /sys filesystem
-     * 
-     * @param filename
-     *            The file to read
-     * @return The value contained in the file, if any; otherwise zero
-     */
-    public static int getIntFromFile(String filename) {
-        LOG.debug("Reading file " + filename);
-        try {
-            List<String> read = FileUtil.readFile(filename, false);
-            if (!read.isEmpty()) {
-                LOG.trace("Read " + read.get(0));
-                return Integer.parseInt(read.get(0));
-            }
-        } catch (NumberFormatException ex) {
-            LOG.debug("Unable to read value from " + filename);
-        }
-        return 0;
-    }
+			try {
+				String line;
+				br = new BufferedReader(new FileReader(file));
+				while ((line = br.readLine()) != null) {
+					lines.add(line);
+				}
+			} catch (IOException e) {
+				LOG.error(e);
+			} finally {
+				try {
+					if (br != null)
+						br.close();
+				} catch (IOException ex) {
+					LOG.error(ex);
+				}
+			}
+		} else if (reportError) {
+			LOG.warn("File not found: " + filename);
+		}
+		return lines;
+	}
 
-    /**
-     * Read a file and return the String value contained therein. Intended
-     * primarily for Linux /sys filesystem
-     * 
-     * @param filename
-     *            The file to read
-     * @return The value contained in the file, if any; otherwise emptpy string
-     */
-    public static String getStringFromFile(String filename) {
-        LOG.debug("Reading file " + filename);
-        List<String> read = FileUtil.readFile(filename, false);
-        if (!read.isEmpty()) {
-            LOG.trace("Read " + read.get(0));
-            return read.get(0);
-        }
-        return "";
-    }
+	/**
+	 * Read a file and return the long value contained therein. Intended
+	 * primarily for Linux /sys filesystem
+	 * 
+	 * @param filename
+	 *            The file to read
+	 * @return The value contained in the file, if any; otherwise zero
+	 */
+	public static long getLongFromFile(String filename) {
+		LOG.debug("Reading file " + filename);
+		try {
+			List<String> read = FileUtil.readFile(filename, false);
+			if (!read.isEmpty()) {
+				LOG.trace("Read " + read.get(0));
+				return Long.parseLong(read.get(0));
+			}
+		} catch (NumberFormatException ex) {
+			LOG.debug("Unable to read value from " + filename);
+		}
+		return 0L;
+	}
 
-    /**
-     * Read a file and return an array of whitespace-delimited string values
-     * contained therein. Intended primarily for Linux /proc
-     * 
-     * @param filename
-     *            The file to read
-     * @return An array of strings containing delimited values
-     */
-    public static String[] getSplitFromFile(String filename) {
-        LOG.debug("Reading file " + filename);
-        List<String> read = FileUtil.readFile(filename, false);
-        if (!read.isEmpty()) {
-            LOG.trace("Read " + read.get(0));
-            return read.get(0).split("\\s+");
-        }
-        return new String[0];
-    }
+	/**
+	 * Read a file and return the int value contained therein. Intended
+	 * primarily for Linux /sys filesystem
+	 * 
+	 * @param filename
+	 *            The file to read
+	 * @return The value contained in the file, if any; otherwise zero
+	 */
+	public static int getIntFromFile(String filename) {
+		LOG.debug("Reading file " + filename);
+		try {
+			List<String> read = FileUtil.readFile(filename, false);
+			if (!read.isEmpty()) {
+				LOG.trace("Read " + read.get(0));
+				return Integer.parseInt(read.get(0));
+			}
+		} catch (NumberFormatException ex) {
+			LOG.debug("Unable to read value from " + filename);
+		}
+		return 0;
+	}
+
+	/**
+	 * Read a file and return the String value contained therein. Intended
+	 * primarily for Linux /sys filesystem
+	 * 
+	 * @param filename
+	 *            The file to read
+	 * @return The value contained in the file, if any; otherwise emptpy string
+	 */
+	public static String getStringFromFile(String filename) {
+		LOG.debug("Reading file " + filename);
+		List<String> read = FileUtil.readFile(filename, false);
+		if (!read.isEmpty()) {
+			LOG.trace("Read " + read.get(0));
+			return read.get(0);
+		}
+		return "";
+	}
+
+	/**
+	 * Read a file and return an array of whitespace-delimited string values
+	 * contained therein. Intended primarily for Linux /proc
+	 * 
+	 * @param filename
+	 *            The file to read
+	 * @return An array of strings containing delimited values
+	 */
+	public static String[] getSplitFromFile(String filename) {
+		LOG.debug("Reading file " + filename);
+		List<String> read = FileUtil.readFile(filename, false);
+		if (!read.isEmpty()) {
+			LOG.trace("Read " + read.get(0));
+			return read.get(0).split("\\s+");
+		}
+		return new String[0];
+	}
 }
